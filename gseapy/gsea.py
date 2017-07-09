@@ -99,14 +99,12 @@ class GSEAbase:
             self._logger.warning("Input gene rankings contains NA values(gene name and ranking value), drop them all!")
             #print out NAs
             NAs = rank_metric[rank_metric.isnull().any(axis=1)]
-            self._logger.warning(NAs.to_string())
-            rank_metric.dropna(how='all', inplace=True) 
+            rank_metric.dropna(how='all', inplace=True)
         #drop duplicate IDs, keep the first
         if rank_metric.duplicated(subset=rank_metric.columns[0]).sum() >0:
             self._logger.warning("Input gene rankings contains duplicated IDs, Only use the duplicated ID with highest value!")
             #print out duplicated IDs.
             dups = rank_metric[rank_metric.duplicated(subset=rank_metric.columns[0])]
-            self._logger.warning(dups.to_string())
             rank_metric.drop_duplicates(subset=rank_metric.columns[0], inplace=True, keep='first')
  
         #reset ranking index, or will cause problems
